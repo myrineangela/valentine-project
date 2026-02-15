@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Message 💕</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Georgia', serif;
+            background: url('/assets/background-DigHkeyv.gif') center/cover no-repeat fixed;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: linear-gradient(rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05)), rgba(234, 190, 202, 0.738);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 400px;
+            min-height: 300px;
+            width: 100%;
+            box-shadow: 0 30px 80px rgba(234, 190, 202, 0.842);
+            border: 1px solid rgb(234, 190, 202);     
+            text-align: center;
+            position: relative;
+        }
+
+        h1 {
+            color: #764ba2;
+            font-size: 25px;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            color: #764ba2;
+            font-size: 25px;
+        }
+
+
+        input[type="password"], input[type="text"] {
+            width: 100%;
+            padding: 15px;   
+            border: 2px solid rgb(246, 156, 180);     
+            border-radius: 10px;
+            font-size: 14px;
+            margin-bottom: 10px;
+            transition: border-color 0.3s;
+        }
+
+
+        input[type="password"]:focus, input[type="text"]:focus {
+            outline: none;
+            border: 3px solid rgb(246, 156, 180);     
+        }
+
+        button {
+            background: rgb(234, 190, 202);
+            color: white;
+            border: 2px solid rgb(246, 156, 180);     
+            width: 100%;
+            padding: 15px;            
+            border-radius: 15px;          
+            font-size: 14px;              
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: bold;
+        }
+
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(118, 75, 162, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .message-section {
+            display: none;
+            animation: fadeIn 1s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message-content {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #333;
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9ff;
+            border-radius: 10px;
+            border: 1px solid rgb(234, 190, 202);     
+
+        }
+
+        .error {
+            color: #e74c3c;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .recipient-name {
+            color: #764ba2;
+            font-weight: bold;
+            font-size: 25px;
+        }
+
+        .footer {
+            margin-top: 30px;
+            font-style: italic;
+            color: #666;
+        }
+
+        .floating-hearts {
+            position: fixed;
+            pointer-events: none;
+            font-size: 20px;
+            animation: float 6s infinite;
+            opacity: 0;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+
+
+
+
+<body>
+    <div class="container">
+        <h1 id="mainTitle">happy hearts day!</h1>
+        
+        <div id="nameSection" class="password-section">
+            <p style="margin-bottom: 10px; color: #666;">whooo muna ikaw?</p>
+            <input type="text" id="nameInput" placeholder="Enter your name">
+            <button onclick="submitName()">Continue 💕</button>
+        </div>
+
+        <div id="passwordSection" class="password-section" style="display: none;">
+            <h2 id="greeting"></h2>
+            <p style="margin-bottom: 10px; color: #666;">Enter password: :p</p>
+            <input type="password" id="passwordInput" placeholder="Enter your password">
+            <button onclick="checkPassword()">Unlock Message 💖</button>
+            <div id="error" class="error"></div>
+        </div>
+
+
+        <div id="messageSection" class="message-section">
+            <div class="recipient-name" id="recipientName"></div>
+            <div class="message-content" id="messageContent"></div>
+            <div class="footer">love, my🤍</div>
+        </div>
+    </div>
+
+    <!-- Background Music -->
+    <audio id="bgMusic" loop>
+        <source src="/assets/aura-DujEWtj3.mp3" type="audio/mpeg">
+        <!-- You can also add other formats for better compatibility -->
+        <!-- <source src="your-music-file.ogg" type="audio/ogg"> -->
+    </audio>
+
+    <script>
+        // CUSTOMIZE YOUR MESSAGES HERE
+        const messages = {
+            // Format: "password": { name: "Person's Name", message: "Your message here" }
+            "dani": {
+                name: "Dani",
+                message: "Happy heart's day. This code is dedicatd for you. I hope I am making you proud by making this. I love you always so much!"
+            }
+        };
+
+        let userName = "";
+
+        function submitName() {
+            const nameInput = document.getElementById('nameInput').value.trim();
+            
+            if (nameInput === "") {
+                alert("Please enter your name! 💕");
+                return;
+            }
+            
+            userName = nameInput;
+            document.getElementById('greeting').textContent = `hi ${userName}! 💕`;
+            document.getElementById('nameSection').style.display = 'none';
+            document.getElementById('passwordSection').style.display = 'block';
+            document.getElementById('mainTitle').style.display = 'none';
+        }
+
+        // Allow Enter key to submit name
+        document.getElementById('nameInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                submitName();
+            }
+        });
+
+        function checkPassword() {
+            const password = document.getElementById('passwordInput').value.trim();
+            const errorDiv = document.getElementById('error');
+            
+            if (messages[password]) {
+                // Correct password
+                document.getElementById('recipientName').textContent = messages[password].name;
+                document.getElementById('messageContent').textContent = messages[password].message;
+                document.getElementById('passwordSection').style.display = 'none';
+                document.getElementById('messageSection').style.display = 'block';
+                
+                // Create floating hearts
+                createFloatingHearts();
+            } else {
+                // Wrong password
+                errorDiv.textContent = "Oops! Wrong password. Try again! 💔";
+                document.getElementById('passwordInput').value = '';
+            }
+        }
+
+        // Allow Enter key to submit
+        document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+
+        function createFloatingHearts() {
+            const hearts = ['💕', '💖', '💗', '💝', '💘', '❤️'];
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'floating-hearts';
+                    heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.animationDelay = Math.random() * 2 + 's';
+                    document.body.appendChild(heart);
+                    
+                    setTimeout(() => heart.remove(), 6000);
+                }, i * 200);
+            }
+        }
+
+        // Background Music Auto-play
+        const music = document.getElementById('bgMusic');
+
+        // Auto-play music when page loads
+        window.addEventListener('load', function() {
+            // Try to play music automatically
+            music.play().catch(function(error) {
+                // If autoplay is blocked by browser, play on first user interaction
+                document.addEventListener('click', function() {
+                    music.play();
+                }, { once: true });
+            });
+        });
+    </script>
+</body>
+</html>
